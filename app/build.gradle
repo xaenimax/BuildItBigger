@@ -63,4 +63,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 
     implementation project(path: ':JavaJokes')
+    implementation project(path: ':androidjokes')
 }
