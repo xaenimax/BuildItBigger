@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.udacity.aenima.androidjokes.Constants;
+import com.udacity.aenima.androidjokes.ShowJokeActivity;
 import com.udacity.aenima.javajokes.JokeDispenser;
 
 
@@ -45,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     public void tellJoke(View view) {
         //Toast.makeText(this, JokeDispenser.getAJoke(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, ShowJokeActivity.class);
+        intent.putExtra(Constants.JOKE_STRING_EXTRA, JokeDispenser.getAJoke());
+
+        startActivity(intent);
 
     }
 
