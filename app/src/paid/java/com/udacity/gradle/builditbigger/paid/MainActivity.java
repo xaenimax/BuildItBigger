@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.udacity.aenima.androidjokes.Constants;
@@ -16,12 +17,16 @@ import com.udacity.gradle.builditbigger.R;
 import com.udacity.gradle.builditbigger.RetrieveJokeAsyncTask;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RetrieveJokeAsyncTask.RetrieveJokeListener{
+
+    private ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        spinner = findViewById(R.id.loading_pb);
+        spinner.setVisibility(View.GONE);
     }
 
 
@@ -55,10 +60,17 @@ public class MainActivity extends AppCompatActivity {
         //intent.putExtra(Constants.JOKE_STRING_EXTRA, JokeDispenser.getAJoke());
         //startActivity(intent);
         //Step 3
-        RetrieveJokeAsyncTask task = new RetrieveJokeAsyncTask();
+        //Showing spinner
+        spinner.setVisibility(View.VISIBLE);
+        RetrieveJokeAsyncTask task = new RetrieveJokeAsyncTask(this);
         task.execute(this);
 
     }
 
-
+//region Task Listener
+    @Override
+    public void onTaskExecuted() {
+        spinner.setVisibility(View.GONE);
+    }
+//endregion
 }

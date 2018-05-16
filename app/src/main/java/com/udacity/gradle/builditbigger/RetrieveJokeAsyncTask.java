@@ -19,9 +19,10 @@ public class RetrieveJokeAsyncTask extends AsyncTask<Context, Void, String> {
 
     private static MyApi myApi = null;
     private static Context mContext;
+    private RetrieveJokeListener mRetrieveJokeListener;
 
-    public RetrieveJokeAsyncTask() {
-
+    public RetrieveJokeAsyncTask(RetrieveJokeListener listener) {
+        mRetrieveJokeListener = listener;
     }
 
     @Override
@@ -52,8 +53,15 @@ public class RetrieveJokeAsyncTask extends AsyncTask<Context, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
+
+        mRetrieveJokeListener.onTaskExecuted();
+
         Intent intent = new Intent(mContext, ShowJokeActivity.class);
         intent.putExtra(Constants.JOKE_STRING_EXTRA, result);
         mContext.startActivity(intent);
+    }
+
+    public interface RetrieveJokeListener {
+        void onTaskExecuted();
     }
 }

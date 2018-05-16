@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
@@ -20,9 +21,10 @@ import com.udacity.gradle.builditbigger.R;
 import com.udacity.gradle.builditbigger.RetrieveJokeAsyncTask;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RetrieveJokeAsyncTask.RetrieveJokeListener{
 
     private InterstitialAd mInterstitialAd;
+    private ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
         mInterstitialAd.setAdListener(mAdListener);
+
+        spinner = findViewById(R.id.loading_pb);
+        spinner.setVisibility(View.GONE);
     }
 
 
@@ -81,9 +86,14 @@ public class MainActivity extends AppCompatActivity {
         public void onAdClosed() {
             super.onAdClosed();
             //Step 3
-            RetrieveJokeAsyncTask task = new RetrieveJokeAsyncTask();
+            spinner.setVisibility(View.VISIBLE);
+            RetrieveJokeAsyncTask task = new RetrieveJokeAsyncTask(MainActivity.this);
             task.execute(MainActivity.this);
         }
     };
 
+    @Override
+    public void onTaskExecuted() {
+        spinner.setVisibility(View.GONE);
+    }
 }
