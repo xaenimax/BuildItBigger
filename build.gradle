@@ -14,6 +14,11 @@ buildscript {
     }
 }
 
+task runTest {
+    tasks.findByPath(':app:connectedAndroidTest').dependsOn(':backend:appengineStart')
+    tasks.findByPath(':backend:appengineStop').mustRunAfter(':app:connectedAndroidTest')
+}
+
 allprojects {
     repositories {
         jcenter()
