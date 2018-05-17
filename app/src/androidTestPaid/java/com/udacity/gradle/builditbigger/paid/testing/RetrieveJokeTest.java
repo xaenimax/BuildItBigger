@@ -1,10 +1,10 @@
-package com.udacity.gradle.builditbigger.testing;
+package com.udacity.gradle.builditbigger.paid.testing;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.udacity.gradle.builditbigger.MainActivity;
 import com.udacity.gradle.builditbigger.R;
+import com.udacity.gradle.builditbigger.paid.MainActivity;
 
 import org.junit.Rule;
 import org.junit.Test;

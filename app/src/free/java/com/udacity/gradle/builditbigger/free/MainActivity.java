@@ -2,6 +2,8 @@ package com.udacity.gradle.builditbigger.free;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements RetrieveJokeAsync
 
     private InterstitialAd mInterstitialAd;
     private ProgressBar spinner;
+    private SimpleIdlingResource mIdlingResource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements RetrieveJokeAsync
         //intent.putExtra(Constants.JOKE_STRING_EXTRA, JokeDispenser.getAJoke());
         //startActivity(intent);
         //show interstitial ad
+        if (mIdlingResource != null) {
+            mIdlingResource.setIdleState(false);
+        }
+
         if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
         } else {
@@ -89,11 +96,23 @@ public class MainActivity extends AppCompatActivity implements RetrieveJokeAsync
             spinner.setVisibility(View.VISIBLE);
             RetrieveJokeAsyncTask task = new RetrieveJokeAsyncTask(MainActivity.this);
             task.execute(MainActivity.this);
+            if (mIdlingResource != null) {
+                mIdlingResource.setIdleState(true);
+            }
         }
     };
 
     @Override
     public void onTaskExecuted() {
         spinner.setVisibility(View.GONE);
+    }
+
+    @VisibleForTesting
+    @NonNull
+    public SimpleIdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
     }
 }
