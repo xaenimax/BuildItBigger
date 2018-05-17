@@ -2,12 +2,13 @@ package com.udacity.gradle.builditbigger.free.testing;
 
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
-import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.udacity.gradle.builditbigger.R;
 import com.udacity.gradle.builditbigger.free.MainActivity;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -24,9 +25,8 @@ import static org.hamcrest.core.IsNot.not;
 public class RetrieveJokeTest {
     private IdlingResource mIdlingResource = null;
 
-
     @Rule
-    public IntentsTestRule<MainActivity> intentsTestRule = new IntentsTestRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> intentsTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Before
     public void registerIdlingResource() {
@@ -42,6 +42,12 @@ public class RetrieveJokeTest {
         //check
         onView(withId(R.id.joke_text_tv)).check(matches(not(withText(""))));
 
+    }
+    @After
+    public void unregisterdlingResource(){
+        if(mIdlingResource != null){
+            IdlingRegistry.getInstance().unregister(mIdlingResource);
+        }
     }
 
 
