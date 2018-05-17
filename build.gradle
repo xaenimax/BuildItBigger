@@ -16,8 +16,12 @@ buildscript {
 
 task runTest {
     group 'verification'
-    tasks.findByPath(':app:connectedAndroidTest').dependsOn(':backend:appengineStart')
-    tasks.findByPath(':backend:appengineStop').mustRunAfter(':app:connectedAndroidTest')
+    dependsOn ':backend:appengineStart'
+    dependsOn ':app:connectedAndroidTest'
+    dependsOn ':backend:appengineStop'
+
+    //tasks.findByPath(':app:connectedAndroidTest').dependsOn(':backend:appengineStart')
+    //tasks.findByPath(':backend:appengineStop').mustRunAfter(':app:connectedAndroidTest')
 }
 
 allprojects {
